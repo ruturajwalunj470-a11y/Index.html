@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>💌 A Little Surprise</title>
 
 <style>
@@ -17,16 +18,456 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#ffd1e3,#fff5fa,#ffdce9);
+  background:linear-gradient(135deg,#ffd1e3,#fff,#ffdbea);
   overflow:hidden;
 }
 
-/* BACKGROUND */
-body::before,
-body::after{
+/* Background */
+body:before{
   content:"";
   position:fixed;
-  width:280px;
-  height:280px;
+  width:300px;
+  height:300px;
   border-radius:50%;
-  filter:blur(
+  background:#ff8fba;
+  filter:blur(100px);
+  opacity:.35;
+  top:-100px;
+  left:-100px;
+  animation:glow 5s infinite alternate;
+}
+
+@keyframes glow{
+  to{
+    transform:translate(180px,150px);
+  }
+}
+
+/* Card */
+.card{
+  width:90%;
+  max-width:450px;
+  padding:35px 22px;
+  text-align:center;
+  background:rgba(255,255,255,.95);
+  border-radius:30px;
+  box-shadow:0 15px 45px #0003;
+  z-index:5;
+  animation:cardIn 1s ease;
+}
+
+@keyframes cardIn{
+  from{
+    opacity:0;
+    transform:scale(.5) rotate(-5deg);
+  }
+  to{
+    opacity:1;
+    transform:scale(1) rotate(0);
+  }
+}
+
+/* Envelope */
+.envelope{
+  font-size:90px;
+  display:inline-block;
+  cursor:pointer;
+  animation:shake 1.5s infinite;
+}
+
+@keyframes shake{
+  0%,100%{transform:rotate(0)}
+  25%{transform:rotate(-8deg)}
+  75%{transform:rotate(8deg)}
+}
+
+/* Text */
+h1{
+  color:#ff3f7f;
+  font-size:32px;
+  text-shadow:0 0 10px #ffb4cd;
+}
+
+p{
+  color:#777;
+  font-size:18px;
+  line-height:1.5;
+}
+
+/* Buttons */
+button{
+  border:0;
+  padding:15px 35px;
+  margin:8px;
+  border-radius:40px;
+  background:#ff3f7f;
+  color:white;
+  font-size:19px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 7px 20px #ff3f7f55;
+}
+
+button:hover{
+  transform:scale(1.08);
+}
+
+button:active{
+  transform:scale(.9);
+}
+
+/* Big heart */
+.bigheart{
+  font-size:100px;
+  animation:heart 1s infinite;
+}
+
+@keyframes heart{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.2)}
+}
+
+/* NO button */
+#noBtn{
+  background:#777;
+  position:relative;
+  transition:.2s;
+}
+
+/* Floating hearts */
+.heart{
+  position:fixed;
+  bottom:-50px;
+  font-size:25px;
+  pointer-events:none;
+  animation:float 5s linear forwards;
+  z-index:1;
+}
+
+@keyframes float{
+  0%{
+    transform:translateY(0) rotate(0);
+    opacity:0;
+  }
+  15%{opacity:1}
+  100%{
+    transform:translateY(-110vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* Stars */
+.star{
+  position:fixed;
+  pointer-events:none;
+  animation:twinkle 1.5s infinite alternate;
+}
+
+@keyframes twinkle{
+  from{
+    opacity:.2;
+    transform:scale(.5);
+  }
+  to{
+    opacity:1;
+    transform:scale(1.4);
+  }
+}
+
+/* Success */
+.success{
+  animation:success 1s infinite alternate;
+}
+
+@keyframes success{
+  from{
+    box-shadow:0 15px 45px #0003;
+  }
+  to{
+    box-shadow:0 15px 60px #ff4f8c88;
+  }
+}
+
+/* Mobile */
+@media(max-width:600px){
+
+  .card{
+    width:92%;
+    padding:30px 18px;
+    border-radius:25px;
+  }
+
+  h1{
+    font-size:27px;
+  }
+
+  p{
+    font-size:16px;
+  }
+
+  .envelope{
+    font-size:75px;
+  }
+
+  .bigheart{
+    font-size:85px;
+  }
+
+  button{
+    padding:14px 28px;
+    font-size:17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+
+  <div class="envelope" onclick="openLetter()">
+    💌
+  </div>
+
+  <h1>Someone left you a message...</h1>
+
+  <p>Tap the envelope to open it ✨</p>
+
+</div>
+
+<script>
+
+/* OPEN */
+function openLetter(){
+
+  document.getElementById("card").innerHTML=`
+
+    <div style="font-size:60px">
+      💌✨
+    </div>
+
+    <h1 id="typing"></h1>
+
+    <p>
+      A little surprise is waiting... 🥹✨
+    </p>
+
+    <button onclick="question()">
+      Continue 💖
+    </button>
+
+  `;
+
+  let text="Hey... I have something to ask ❤️";
+  let i=0;
+
+  function type(){
+
+    if(i<text.length){
+
+      document.getElementById("typing").innerHTML+=
+      text.charAt(i);
+
+      i++;
+
+      setTimeout(type,60);
+    }
+  }
+
+  type();
+}
+
+
+/* QUESTION */
+function question(){
+
+  document.getElementById("card").innerHTML=`
+
+    <div class="bigheart">
+      ❤️
+    </div>
+
+    <h1>Do you love me? 💕</h1>
+
+    <p id="questionText">
+      Choose your answer 😊✨
+    </p>
+
+    <button onclick="yes()">
+      YES ❤️
+    </button>
+
+    <button
+      id="noBtn"
+      onmouseenter="runNo()"
+      ontouchstart="runNo()">
+      NO 🙂
+    </button>
+
+    <div id="reaction"></div>
+
+  `;
+}
+
+
+/* NO BUTTON RUNS AWAY */
+function runNo(){
+
+  let btn=document.getElementById("noBtn");
+  let reaction=document.getElementById("reaction");
+
+  if(!btn) return;
+
+  let x=(Math.random()*240)-120;
+  let y=(Math.random()*180)-90;
+
+  btn.style.transform=
+    `translate(${x}px,${y}px) rotate(${Math.random()*40-20}deg)`;
+
+  reaction.innerHTML=`
+    <div style="
+      font-size:55px;
+      animation:heart .5s;
+    ">
+      🥺💨
+    </div>
+    <p>Oops! The NO button ran away 😅</p>
+  `;
+}
+
+
+/* YES */
+function yes(){
+
+  let card=document.getElementById("card");
+
+  card.classList.add("success");
+
+  card.innerHTML=`
+
+    <div style="font-size:70px">
+      🥳❤️✨
+    </div>
+
+    <h1>Yayyyyy! 🎉</h1>
+
+    <p>
+      You chose YES! 💖
+      <br><br>
+      ✨ Surprise Unlocked ✨
+    </p>
+
+    <div style="
+      font-size:45px;
+      animation:heart 1s infinite;
+    ">
+      🐱 💕 🌸 ⭐ 🎀
+    </div>
+
+    <p>
+      Keep smiling! 😊❤️
+    </p>
+
+    <button onclick="location.reload()">
+      Replay 🔄
+    </button>
+
+  `;
+
+  celebration();
+}
+
+
+/* CELEBRATION */
+function celebration(){
+
+  for(let i=0;i<80;i++){
+
+    let c=document.createElement("div");
+
+    c.innerHTML=[
+      "❤️","💖","💕","✨",
+      "🌸","🎉","🥳","⭐","🎀"
+    ][Math.floor(Math.random()*9)];
+
+    c.style.position="fixed";
+    c.style.left=Math.random()*100+"%";
+    c.style.top="-30px";
+    c.style.fontSize="25px";
+    c.style.zIndex="20";
+
+    let duration=2+Math.random()*3;
+
+    c.animate(
+      [
+        {transform:"translateY(0) rotate(0)"},
+        {transform:
+          `translateY(110vh) rotate(${Math.random()*720}deg)`
+        }
+      ],
+      {
+        duration:duration*1000,
+        delay:Math.random()*1500,
+        fill:"forwards"
+      }
+    );
+
+    document.body.appendChild(c);
+
+    setTimeout(()=>{
+      c.remove();
+    },6000);
+  }
+}
+
+
+/* FLOATING HEARTS */
+function floatingHeart(){
+
+  let h=document.createElement("div");
+
+  h.className="heart";
+
+  h.innerHTML=[
+    "❤️","💖","💕","💗","✨","🌸"
+  ][Math.floor(Math.random()*6)];
+
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDuration=
+    (4+Math.random()*4)+"s";
+
+  document.body.appendChild(h);
+
+  setTimeout(()=>{
+    h.remove();
+  },8000);
+}
+
+setInterval(floatingHeart,500);
+
+
+/* STARS */
+function createStar(){
+
+  let s=document.createElement("div");
+
+  s.className="star";
+  s.innerHTML="✨";
+
+  s.style.left=Math.random()*100+"%";
+  s.style.top=Math.random()*100+"%";
+
+  document.body.appendChild(s);
+
+  setTimeout(()=>{
+    s.remove();
+  },3000);
+}
+
+setInterval(createStar,700);
+
+</script>
+
+</body>
+</html>
